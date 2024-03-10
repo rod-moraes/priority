@@ -61,17 +61,20 @@ class AlertPriorityApp extends StatelessWidget {
                                         backgroundColor: Colors.red,
                                         leading: Icon(Icons.error),
                                         priority: AlertPriority.error,
-                                        child: Text('Oops, ocorreu um erro. Pedimos desculpas.'),
+                                        child: Text(
+                                            'Oops, ocorreu um erro. Pedimos desculpas.'),
                                       ),
                                     );
                                   },
                                   style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(Colors.red),
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.red),
                                   ),
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: const [
                                       Icon(Icons.error),
                                       SizedBox(width: 4.0),
                                       Text('Error'),
@@ -85,17 +88,20 @@ class AlertPriorityApp extends StatelessWidget {
                                         backgroundColor: Colors.amber,
                                         leading: Icon(Icons.warning),
                                         priority: AlertPriority.warning,
-                                        child: Text('Atenção! Você foi avisado.'),
+                                        child:
+                                            Text('Atenção! Você foi avisado.'),
                                       ),
                                     );
                                   },
                                   style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(Colors.amber),
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.amber),
                                   ),
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: const [
                                       Icon(Icons.warning_outlined),
                                       SizedBox(width: 4.0),
                                       Text('Warning'),
@@ -109,17 +115,20 @@ class AlertPriorityApp extends StatelessWidget {
                                         backgroundColor: Colors.green,
                                         leading: Icon(Icons.info),
                                         priority: AlertPriority.info,
-                                        child: Text('Este é um aplicativo escrito em Flutter.'),
+                                        child: Text(
+                                            'Este é um aplicativo escrito em Flutter.'),
                                       ),
                                     );
                                   },
                                   style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(Colors.lightGreen),
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Colors.lightGreen),
                                   ),
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: const [
                                       Icon(Icons.info_outline),
                                       SizedBox(width: 4.0),
                                       Text('Info'),
