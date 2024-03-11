@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'alert_messenger.dart';
+import 'alert/alert.dart';
+import 'alert/alert_messenger.dart';
 
 void main() => runApp(const AlertPriorityApp());
 
@@ -23,6 +24,7 @@ class AlertPriorityApp extends StatelessWidget {
       home: AlertMessenger(
         child: Builder(
           builder: (context) {
+            final showAlert = AlertMessenger.of(context).showAlert;
             return Scaffold(
               backgroundColor: Colors.grey[200],
               appBar: AppBar(
@@ -35,12 +37,22 @@ class AlertPriorityApp extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Center(
-                        child: Text(
-                          '<Adicione o texto do alerta de prioridade aqui>',
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontSize: 16.0,
-                          ),
+                        child: AnimatedBuilder(
+                          animation:
+                              AlertMessenger.of(context).lastAlertDropped,
+                          builder: (context, _) {
+                            return Text(
+                              AlertMessenger.of(context)
+                                      .lastAlertDropped
+                                      .value
+                                      ?.message ??
+                                  '<Adicione o texto do alerta de prioridade aqui>',
+                              style: TextStyle(
+                                color: Colors.grey[500],
+                                fontSize: 16.0,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -54,85 +66,36 @@ class AlertPriorityApp extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    AlertMessenger.of(context).showAlert(
-                                      alert: const Alert(
-                                        backgroundColor: Colors.red,
-                                        leading: Icon(Icons.error),
-                                        priority: AlertPriority.error,
-                                        child: Text(
-                                            'Oops, ocorreu um erro. Pedimos desculpas.'),
-                                      ),
-                                    );
-                                  },
-                                  style: const ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.red),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: const [
-                                      Icon(Icons.error),
-                                      SizedBox(width: 4.0),
-                                      Text('Error'),
-                                    ],
+                                Button(
+                                  label: 'Error',
+                                  icon: Icons.error,
+                                  backgroundColor: Colors.red,
+                                  onPressed: () => showAlert(
+                                    alert: const Alert.error(
+                                      message:
+                                          'Oops, ocorreu um erro. Pedimos desculpas.',
+                                    ),
                                   ),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    AlertMessenger.of(context).showAlert(
-                                      alert: const Alert(
-                                        backgroundColor: Colors.amber,
-                                        leading: Icon(Icons.warning),
-                                        priority: AlertPriority.warning,
-                                        child:
-                                            Text('Atenção! Você foi avisado.'),
-                                      ),
-                                    );
-                                  },
-                                  style: const ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.amber),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: const [
-                                      Icon(Icons.warning_outlined),
-                                      SizedBox(width: 4.0),
-                                      Text('Warning'),
-                                    ],
+                                Button(
+                                  label: 'Warning',
+                                  icon: Icons.warning_outlined,
+                                  backgroundColor: Colors.amber,
+                                  onPressed: () => showAlert(
+                                    alert: const Alert.warning(
+                                      message: 'Atenção! Você foi avisado.',
+                                    ),
                                   ),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    AlertMessenger.of(context).showAlert(
-                                      alert: const Alert(
-                                        backgroundColor: Colors.green,
-                                        leading: Icon(Icons.info),
-                                        priority: AlertPriority.info,
-                                        child: Text(
-                                            'Este é um aplicativo escrito em Flutter.'),
-                                      ),
-                                    );
-                                  },
-                                  style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        Colors.lightGreen),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: const [
-                                      Icon(Icons.info_outline),
-                                      SizedBox(width: 4.0),
-                                      Text('Info'),
-                                    ],
+                                Button(
+                                  label: 'Info',
+                                  icon: Icons.info_outline,
+                                  backgroundColor: Colors.lightGreen,
+                                  onPressed: () => showAlert(
+                                    alert: const Alert.info(
+                                      message:
+                                          'Este é um aplicativo escrito em Flutter.',
+                                    ),
                                   ),
                                 ),
                               ],
@@ -157,6 +120,39 @@ class AlertPriorityApp extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Color backgroundColor;
+  final IconData icon;
+  final String label;
+  const Button({
+    Key? key,
+    required this.onPressed,
+    required this.backgroundColor,
+    required this.icon,
+    required this.label,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(backgroundColor),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(icon),
+          const SizedBox(width: 4.0),
+          Text(label),
+        ],
       ),
     );
   }
